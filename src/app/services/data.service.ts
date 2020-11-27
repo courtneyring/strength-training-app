@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -10,7 +11,7 @@ export class DataService {
 
     config = {
         client_id: '379651065405-n3jfqu6m0p84scaprlkimokgf11b4oh2.apps.googleusercontent.com',
-        redirect_uri: 'http://localhost:4200',
+        redirect_uri: environment.redirectUrl,
         response_type: 'token',
         scope: 'https://www.googleapis.com/auth/spreadsheets',
         include_granted_scopes: 'true',
