@@ -11,29 +11,12 @@ import { DataService } from './services/data.service';
 export class AppComponent {
     title = 'strength-training-app';
 
-    constructor(public dataService: DataService, private route: ActivatedRoute){
+    constructor(public dataService: DataService, private route: ActivatedRoute) {
 
-        route.fragment.subscribe((res) => {
-            let params = new URLSearchParams(res);
-            if (params.get('access_token')){
-                sessionStorage.setItem('access_token', params.get('access_token'));
-            }
-            
-            let token = sessionStorage.getItem('access_token');
-
-            if (token){
-                dataService.getData(token);
-                dataService.writeData(token);
-            }
-            else{
-                dataService.getUrl();
-            }
-        })
 
     }
 
-
-
+    
 
 
 }

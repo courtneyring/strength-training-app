@@ -4,7 +4,8 @@
 
 export const environment = {
     production: false,
-    redirectUrl: 'http://localhost:4200'
+    redirectUrl: 'http://localhost:4200',
+    storyblokToken: 'mHIUpyBIb3zpS2qrdYUFdQtt'
 };
 
 /*
