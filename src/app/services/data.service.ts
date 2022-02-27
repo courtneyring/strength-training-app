@@ -13,6 +13,13 @@ export class DataService {
     spaceId = '146643'; 
     version;
 
+    // strength;
+    // routine;
+    // abs;
+    // cardio;
+
+    data = [];
+
     constructor() {}
 
     async getCurrentVersion() {
@@ -26,15 +33,13 @@ export class DataService {
         let url = `https://api.storyblok.com/v2/cdn/stories/app/?cv=${this.version}&token=${environment.storyblokToken}`;
         let resp = await fetch(url);
         let data = await resp.json();
-        return data.story.content.groups;
+        return data.story.content;
     }
 
     async getStories(uuids) {
-        console.log(uuids)
         let url = `https://api.storyblok.com/v2/cdn/stories?by_uuids=${uuids}&token=${environment.storyblokToken}&version=${this.version}`
         let resp = await fetch(url);
         let data = await resp.json();
-        console.log(data);
         return data.stories
     }
 
@@ -45,25 +50,39 @@ export class DataService {
                 next = story;
             }
         }
-        console.log(next);
         return next
     }
 
     nextRoutineMapper(supersets) {
-        return supersets.map(async (superset) => superset.workouts = await this.getStories(superset.workouts))
+        return supersets.map(async (superset) => {
+            let workouts = await this.getStories(superset.workouts)
+            workouts = workouts.map((workout) => workout.content);
+            return superset.workouts = workouts;
+        })
     }
 
 
     async getContent() {
         this.version = await this.getCurrentVersion();
         
-        let groupUuids = await this.getAppContent();
-        let groups = await this.getStories(groupUuids);
-        let nextGroup = this.getNext(groups);
-        let routines = await this.getStories(nextGroup.content.routines);
-        let nextRoutine = this.getNext(routines);
-        let supersets = await Promise.all(this.nextRoutineMapper(nextRoutine.content.supersets));
-        console.log(supersets)
+        let blocks = ['abs','strength', 'cardio'];
+        let app = await this.getAppContent();
+        console.log(app)
+
+        for (let block of blocks) {
+            let groupUuids = app[block];
+            let groups = await this.getStories(groupUuids);
+            let nextGroup = this.getNext(groups);
+            let routines = await this.getStories(nextGroup.content.routines);
+            let nextRoutine = this.getNext(routines);
+            await Promise.all(this.nextRoutineMapper(nextRoutine.content.supersets));
+
+            this.data.push({...nextRoutine.content, name: nextGroup.name});
+        }
+
+        console.log(this.data);
+
+        // console.log(this.strength);
 
     }
 

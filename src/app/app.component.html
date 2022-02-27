@@ -1,0 +1,30 @@
+<div class='header'>
+    <div class='header1'>Workout</div>
+    <div class='header2'>{{today}}</div>
+</div>
+
+
+
+<div class='block' *ngFor='let data of dataService.data'>
+    <div class='title'>{{data.name}}</div>
+    <!-- <div class='labels'>
+        <div>Workout</div>
+        <div class='label__fields'>
+            <span>Weight</span>
+            <span>Reps</span>
+            <span>Sets</span>
+        </div>
+    </div> -->
+    <div class='set' *ngFor='let set of data.supersets'>
+        <div class='workout' *ngFor='let workout of set.workouts'>
+            <div class='workout__name'>{{workout.name}}<div class='workout__description'>{{workout.description}}</div></div>
+            
+            <div class='workout__values' >
+                <div class='workout__value' *ngFor='let field of fields'>{{workout[field]}}</div>
+            </div>
+            
+            
+        </div>
+        <div class='workout__divider'></div>
+    </div>
+</div>
