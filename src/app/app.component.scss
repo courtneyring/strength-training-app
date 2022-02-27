@@ -24,11 +24,15 @@
     border-bottom: 2px solid rgba(grey, 0.5);
     padding: 15px 0px;
     position: relative;
+
+    &:last-child {
+        border-bottom: 0px;
+    }
 }
 
 .title {
     font-size: 24px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-transform: capitalize;
     text-decoration: underline;
 }
@@ -90,6 +94,10 @@
 
 .workout__value {
     margin: 0px 10px;
+
+    &.hidden {
+        display: none;
+    }
 }
 
 .workout__divider {

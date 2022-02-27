@@ -13,11 +13,10 @@ export class AppComponent {
 
     today = moment().format('MMMM DD, YYYY');
 
-    fields = ['weight', 'reps', 'sets'];
+    fields = [{key: 'weight'}, {key: 'reps'}, {key: 'sets'}, {key: 'distance', unit: 'mi'}, {key: 'time', unit: 'min'}];
 
     constructor(public dataService: DataService, private route: ActivatedRoute) {
  
     }
-
 
 }

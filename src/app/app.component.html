@@ -20,7 +20,7 @@
             <div class='workout__name'>{{workout.name}}<div class='workout__description'>{{workout.description}}</div></div>
             
             <div class='workout__values' >
-                <div class='workout__value' *ngFor='let field of fields'>{{workout[field]}}</div>
+                <div class='workout__value' *ngFor='let field of fields' [ngClass]='{"hidden": !!!workout[field.key]}'>{{workout[field.key]}} {{field.unit}}</div>
             </div>
             
             
