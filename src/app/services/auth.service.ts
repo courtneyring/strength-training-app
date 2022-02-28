@@ -68,7 +68,9 @@ export class AuthService {
         location.href = url + '?' + params.toString();
     }
 
-    async readSheet(params, sheetId, sheetName) {
+    async readSheet(params = new URLSearchParams) {
+        let sheetId = '1PyJMQy9YXMVq3o45KS0kZAjLojSyqypQhC0b4qo3veo';
+        let sheetName = 'Sheet1';
         let token = this.getToken(params);
         
         let url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}`

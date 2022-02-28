@@ -5,10 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { DataService } from './services/data.service';
+import { AuthService } from './services/auth.service';
 
-export function initContent(dataService: DataService) {
-    return () => dataService.getContent();
-}
 
 
 @NgModule({
@@ -19,7 +17,7 @@ export function initContent(dataService: DataService) {
         BrowserModule,
         AppRoutingModule
     ],
-    providers: [{ provide: APP_INITIALIZER, useFactory: initContent, deps: [DataService], multi: true }],
+    providers: [],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
