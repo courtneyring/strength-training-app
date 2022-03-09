@@ -13,13 +13,8 @@ export class DataService {
     spaceId = '146643'; 
     version;
     token;
-
-    // strength;
-    // routine;
-    // abs;
-    // cardio;
-
     data = [];
+
 
     constructor() {}
 
@@ -57,7 +52,9 @@ export class DataService {
     nextRoutineMapper(supersets) {
         return supersets.map(async (superset) => {
             let workouts = await this.getStories(superset.workouts)
-            workouts = workouts.map((workout) => workout.content);
+            workouts = workouts.map((workout) => {
+                return {...workout.content, name: workout.name}
+            });
             return superset.workouts = workouts;
         })
     }
@@ -92,9 +89,11 @@ export class DataService {
 
     async getContent() {
         this.version = await this.getCurrentVersion();
+        this.data = [];
         
         let blocks = ['abs','strength', 'cardio'];
         let app = await this.getAppContent();
+        
 
         for (let block of blocks) {
             let groupUuids = app[block];
@@ -105,6 +104,7 @@ export class DataService {
             let routines = await this.getStories(nextGroup.content.routines);
             let nextRoutine = this.getNext(routines);
             await Promise.all(this.nextRoutineMapper(nextRoutine.content.supersets));
+            console.log(nextRoutine)
 
             this.data.push({routine: nextRoutine, group: nextGroup});
         }
