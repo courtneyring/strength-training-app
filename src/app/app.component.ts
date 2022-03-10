@@ -37,4 +37,8 @@ export class AppComponent {
         await this.dataService.completeStory(data.routine);
     }
 
+    goToStory(id){
+        window.open(`https://app.storyblok.com/#!/me/spaces/${this.dataService.spaceId}/stories/0/0/${id}`, '_blank');
+    }
+
 }

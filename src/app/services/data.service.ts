@@ -53,7 +53,7 @@ export class DataService {
         return supersets.map(async (superset) => {
             let workouts = await this.getStories(superset.workouts)
             workouts = workouts.map((workout) => {
-                return {...workout.content, name: workout.name}
+                return {...workout.content, name: workout.name, id: workout.id}
             });
             return superset.workoutsExpanded = workouts;
         })

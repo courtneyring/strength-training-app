@@ -8,7 +8,7 @@
 <div class='block' *ngFor='let data of dataService.data'>
     <div class='title'>{{data.group.name}}</div>
     <div class='set' *ngFor='let set of data.routine.content.supersets'>
-        <div class='workout' *ngFor='let workout of set.workoutsExpanded'>
+        <div class='workout' *ngFor='let workout of set.workoutsExpanded' (click)='goToStory(workout.id)'>
             <div class='workout__name'>{{workout.name}}<div class='workout__description'>{{workout.description}}</div></div>
             
             <div class='workout__values' >
