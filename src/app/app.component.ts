@@ -35,6 +35,7 @@ export class AppComponent {
     async complete(data) {
         await this.dataService.completeStory(data.group);
         await this.dataService.completeStory(data.routine);
+        data.group['complete'] = true;
     }
 
     goToStory(id){

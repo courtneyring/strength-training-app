@@ -63,8 +63,10 @@ export class DataService {
 
     sort(arr) {
         return arr.sort((a, b) => {
+            if (a.content.last_completed == '') return -1;
             return (moment(a.content.last_completed).unix() - moment(b.content.last_completed).unix())
         })
+        
         
     }
 
@@ -82,6 +84,7 @@ export class DataService {
 
             let nextGroup = this.getNext(groups);
             let routines = this.sort(await this.getStories(nextGroup.content.routines));
+            console.log(routines);
 
             let routine = routines[0];
             await Promise.all(this.nextRoutineMapper(routine.content.supersets));
