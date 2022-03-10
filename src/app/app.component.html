@@ -8,16 +8,21 @@
 <div class='block' *ngFor='let data of dataService.data'>
     <div class='title'>{{data.group.name}}</div>
     <div class='set' *ngFor='let set of data.routine.content.supersets'>
-        <div class='workout' *ngFor='let workout of set.workouts'>
+        <div class='workout' *ngFor='let workout of set.workoutsExpanded'>
             <div class='workout__name'>{{workout.name}}<div class='workout__description'>{{workout.description}}</div></div>
             
             <div class='workout__values' >
-                <div class='workout__value' *ngFor='let field of fields' [ngClass]='{"hidden": !!!workout[field.key]}'>{{workout[field.key]}} {{field.unit}}</div>
+                <div class='workout__value' *ngFor='let field of fields' [ngClass]='{"hidden": !!!workout[field.key]}' (click)='edit()'>{{workout[field.key]}} {{field.unit}}</div>
             </div>
             
             
         </div>
     </div>
 
-    <div class='workout__complete' (click)='complete(data)'>Complete</div>
+    <div class='workout__controls'>
+        <div class='workout__complete' (click)='dataService.changeRoutine(data.group.name, "prev")'>Prev</div>
+        <div class='workout__complete' (click)='complete(data)'>Complete</div>
+        <div class='workout__complete' (click)='dataService.changeRoutine(data.group.name, "next")'>Next</div>
+    </div>
+    
 </div>

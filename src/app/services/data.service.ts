@@ -55,8 +55,61 @@ export class DataService {
             workouts = workouts.map((workout) => {
                 return {...workout.content, name: workout.name}
             });
-            return superset.workouts = workouts;
+            return superset.workoutsExpanded = workouts;
         })
+    }
+
+    
+
+    sort(arr) {
+        return arr.sort((a, b) => {
+            return (moment(a.content.last_completed).unix() - moment(b.content.last_completed).unix())
+        })
+        
+    }
+
+    async getContent() {
+        this.version = await this.getCurrentVersion();
+        this.data = [];
+
+        let blocks = ['abs','strength', 'cardio'];
+        let app = await this.getAppContent();
+        
+
+        for (let block of blocks) {
+            let groupUuids = app[block];
+            let groups = this.sort(await this.getStories(groupUuids));
+
+            let nextGroup = this.getNext(groups);
+            let routines = this.sort(await this.getStories(nextGroup.content.routines));
+
+            let routine = routines[0];
+            await Promise.all(this.nextRoutineMapper(routine.content.supersets));
+            this.data.push({routine, group: nextGroup, routines});
+        }
+
+        console.log(this.data);
+
+    }
+
+
+
+
+    async changeRoutine(groupName, direction) {
+        let group = this.data.find((d) => d.group.name == groupName);
+        let currentIdx = group.routines.findIndex((r) => r.id == group.routine.id);
+        let newIdx;
+
+        if(direction == 'next') {
+            newIdx = currentIdx == group.routines.length - 1 ? 0 : currentIdx + 1;
+        }
+        else {
+            newIdx = currentIdx == 0 ? group.routines.length - 1 : currentIdx - 1;
+        }
+
+        let routine = group.routines[newIdx];
+        await Promise.all(this.nextRoutineMapper(routine.content.supersets));
+        group.routine = routine;
     }
 
     async completeStory(story) {
@@ -80,38 +133,5 @@ export class DataService {
         console.log(resp);
     }
 
-    sort(arr) {
-        return arr.sort((a, b) => {
-            moment(a.content.last_completed).unix() - moment(b.content.last_completed).unix()
-        })
-        
-    }
-
-    async getContent() {
-        this.version = await this.getCurrentVersion();
-        this.data = [];
-        
-        let blocks = ['abs','strength', 'cardio'];
-        let app = await this.getAppContent();
-        
-
-        for (let block of blocks) {
-            let groupUuids = app[block];
-            let groups = this.sort(await this.getStories(groupUuids));
-            console.log(groups);
-            // return;
-            let nextGroup = this.getNext(groups);
-            let routines = await this.getStories(nextGroup.content.routines);
-            let nextRoutine = this.getNext(routines);
-            await Promise.all(this.nextRoutineMapper(nextRoutine.content.supersets));
-            console.log(nextRoutine)
-
-            this.data.push({routine: nextRoutine, group: nextGroup});
-        }
-
-        console.log(this.data);
-
-
-    }
 
 }

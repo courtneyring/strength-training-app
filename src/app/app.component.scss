@@ -110,3 +110,8 @@
 .set:last-child .workout__divider {
     display: none;
 }
+
+.workout__controls {
+    display: flex;
+    justify-content: space-between;
+}
