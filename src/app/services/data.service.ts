@@ -33,7 +33,7 @@ export class DataService {
     }
 
     async getStories(uuids) {
-        let url = `https://api.storyblok.com/v2/cdn/stories?by_uuids=${uuids}&token=${environment.storyblokToken}&version=${this.version}`
+        let url = `https://api.storyblok.com/v2/cdn/stories?by_uuids=${uuids}&token=${environment.storyblokToken}&version=${this.version}&sort_by=position:desc`
         let resp = await fetch(url);
         let data = await resp.json();
         return data.stories
