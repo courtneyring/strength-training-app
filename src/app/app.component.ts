@@ -28,18 +28,30 @@ export class AppComponent {
             let data = await this.authService.readSheet(params);
             this.dataService.token = data.values[0][0];
             dataService.getContent();
+            
         })
  
     }
 
     async complete(data) {
-        await this.dataService.completeStory(data.group);
-        await this.dataService.completeStory(data.routine);
-        data.group['complete'] = true;
+        let group = this.getCurrentGroup(data);
+        await this.dataService.completeStory(group);
+        await this.dataService.completeStory(this.getCurrentRoutine(data));
+        group['complete'] = true;
     }
 
     goToStory(id){
         window.open(`https://app.storyblok.com/#!/me/spaces/${this.dataService.spaceId}/stories/0/0/${id}`, '_blank');
+    }
+
+    getCurrentGroup(data) {
+        return data.groups[data.groupIdx];
+    }
+
+    getCurrentRoutine(data) {
+        let group = this.getCurrentGroup(data);
+
+        return group.content.routines[data.routineIdx]
     }
 
 }

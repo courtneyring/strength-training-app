@@ -41,7 +41,7 @@ export class AuthService {
         date.setSeconds(date.getSeconds() + expiration);
         
         document.cookie = `access_token=${params.get('access_token')};expires=${date.toUTCString()}`;
-        window.location.hash = '';
+        // window.location.hash = '';
     }
 
 
@@ -68,7 +68,7 @@ export class AuthService {
         location.href = url + '?' + params.toString();
     }
 
-    async readSheet(params = new URLSearchParams) {
+    async readSheet(params) {
         let sheetId = '1PyJMQy9YXMVq3o45KS0kZAjLojSyqypQhC0b4qo3veo';
         let sheetName = 'Sheet1';
         let token = this.getToken(params);

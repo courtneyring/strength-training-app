@@ -39,28 +39,9 @@ export class DataService {
         return data.stories
     }
 
-    getNext(stories) {
-        let next;
-        for (let story of stories) {
-            if (!next || moment(story.content.last_completed) < moment(next.content.last_completed)) {
-                next = story;
-            }
-        }
-        return next
-    }
 
-    nextRoutineMapper(supersets) {
-        return supersets.map(async (superset) => {
-            let workouts = await this.getStories(superset.workouts)
-            workouts = workouts.map((workout) => {
-                return {...workout.content, name: workout.name, id: workout.id}
-            });
-            return superset.workoutsExpanded = workouts;
-        })
-    }
 
     
-
     sort(arr) {
         return arr.sort((a, b) => {
             if (a.content.last_completed == '') return -1;
@@ -79,40 +60,76 @@ export class DataService {
         
 
         for (let block of blocks) {
+            let groupIdx = 0;
+            let routineIdx = 0;
             let groupUuids = app[block];
+
             let groups = this.sort(await this.getStories(groupUuids));
+            let group = groups[groupIdx];
 
-            let nextGroup = this.getNext(groups);
-            let routines = this.sort(await this.getStories(nextGroup.content.routines));
-            console.log(routines);
+            let routines = this.sort(await this.getStories(group.content.routines));
+            group.content.routines = routines;
+            await Promise.all(this.populateSupersets(routines[routineIdx].content.supersets));
 
-            let routine = routines[0];
-            await Promise.all(this.nextRoutineMapper(routine.content.supersets));
-            this.data.push({routine, group: nextGroup, routines});
+
+            this.data.push({groups, groupIdx, routineIdx, block});
         }
 
         console.log(this.data);
 
     }
 
+    populateSupersets(supersets) {
+        return supersets.map(async (superset) => {
+            let workouts = await this.getStories(superset.workouts)
+            return superset.workouts = workouts;
+        })
+    }
 
 
-
-    async changeRoutine(groupName, direction) {
-        let group = this.data.find((d) => d.group.name == groupName);
-        let currentIdx = group.routines.findIndex((r) => r.id == group.routine.id);
-        let newIdx;
-
+    getNewIdx(currentIdx, arr, direction) {
         if(direction == 'next') {
-            newIdx = currentIdx == group.routines.length - 1 ? 0 : currentIdx + 1;
+            return currentIdx == arr.length - 1 ? 0 : currentIdx + 1;
         }
         else {
-            newIdx = currentIdx == 0 ? group.routines.length - 1 : currentIdx - 1;
+            return currentIdx == 0 ? arr.length - 1 : currentIdx - 1;
         }
+    }
 
-        let routine = group.routines[newIdx];
-        await Promise.all(this.nextRoutineMapper(routine.content.supersets));
-        group.routine = routine;
+
+    async changeRoutine(data, direction) {
+
+        let group = data.groups[data.groupIdx]
+        let routines = group.content.routines;
+        let newIdx = this.getNewIdx(data.routineIdx, routines, direction);
+
+        let routine = routines[newIdx]
+        console.log(routine.content.supersets[0])
+        if (!routine.content.supersets[0].workouts[0].content) {
+            await Promise.all(this.populateSupersets(routine.content.supersets));
+        }
+        
+        data.routineIdx = newIdx;
+    }
+
+    async changeGroup(data, direction) {
+        let routineIdx = 0;
+        let group = data.groups[data.groupIdx];
+        let newIdx = this.getNewIdx(data.groupIdx, data.groups, direction);
+
+        group = data.groups[newIdx];
+
+        if (!group.content.routines[0].content) {
+            let routines = this.sort(await this.getStories(group.content.routines));
+            group.content.routines = routines;
+            console.log(group);
+            await Promise.all(this.populateSupersets(routines[routineIdx].content.supersets));
+        }
+        
+
+        data.routineIdx = routineIdx;
+        data.groupIdx = newIdx;
+
     }
 
     async completeStory(story) {

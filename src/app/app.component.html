@@ -6,14 +6,14 @@
 
 
 <div class='block' *ngFor='let data of dataService.data'>
-    <div *ngIf='!data.group.complete'>
-        <div class='title'>{{data.group.name}}</div>
-        <div class='set' *ngFor='let set of data.routine.content.supersets'>
-            <div class='workout' *ngFor='let workout of set.workoutsExpanded' (click)='goToStory(workout.id)'>
-                <div class='workout__name'>{{workout.name}}<div class='workout__description'>{{workout.description}}</div></div>
+    <div *ngIf='!getCurrentGroup(data).complete'>
+        <div class='title'>{{data.groups[data.groupIdx].name}}</div>
+        <div class='set' *ngFor='let set of getCurrentRoutine(data).content.supersets'>
+            <div class='workout' *ngFor='let workout of set.workouts' (click)='goToStory(workout.id)'>
+                <div class='workout__name'>{{workout.name}}<div class='workout__description'>{{workout.content.description}}</div></div>
                 
                 <div class='workout__values' >
-                    <div class='workout__value' *ngFor='let field of fields' [ngClass]='{"hidden": !!!workout[field.key]}' (click)='edit()'>{{workout[field.key]}} {{field.unit}}</div>
+                    <div class='workout__value' *ngFor='let field of fields' [ngClass]='{"hidden": !!!workout.content[field.key]}' (click)='edit()'>{{workout.content[field.key]}} {{field.unit}}</div>
                 </div>
                 
                 
@@ -21,11 +21,13 @@
         </div>
     
         <div class='workout__controls'>
-            <div class='workout__complete' (click)='dataService.changeRoutine(data.group.name, "prev")'>Prev</div>
+            <div class='workout__complete' (click)='dataService.changeGroup(data, "prev")' *ngIf='data.block == "strength"'>&lt;&lt;</div>
+            <div class='workout__complete' (click)='dataService.changeRoutine(data, "prev")'>&lt;</div>
             <div class='workout__complete' (click)='complete(data)'>Complete</div>
-            <div class='workout__complete' (click)='dataService.changeRoutine(data.group.name, "next")'>Next</div>
+            <div class='workout__complete' (click)='dataService.changeRoutine(data, "next")'>&gt;</div>
+            <div class='workout__complete' (click)='dataService.changeGroup(data, "next")'  *ngIf='data.block == "strength"'>&gt;&gt;</div>
         </div>
     </div>
-    <div *ngIf='data.group.complete'>Complete</div>
+    <div *ngIf='getCurrentGroup(data).complete'>Complete</div>
     
 </div>
