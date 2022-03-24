@@ -4,30 +4,44 @@
 </div>
 
 
-
 <div class='block' *ngFor='let data of dataService.data'>
     <div *ngIf='!getCurrentGroup(data).complete'>
         <div class='title'>{{data.groups[data.groupIdx].name}}</div>
         <div class='set' *ngFor='let set of getCurrentRoutine(data).content.supersets'>
             <div class='workout' *ngFor='let workout of set.workouts' (click)='goToStory(workout.id)'>
-                <div class='workout__name'>{{workout.name}}<div class='workout__description'>{{workout.content.description}}</div></div>
-                
-                <div class='workout__values' >
-                    <div class='workout__value' *ngFor='let field of fields' [ngClass]='{"hidden": !!!workout.content[field.key]}' (click)='edit()'>{{workout.content[field.key]}} {{field.unit}}</div>
+                <div class='workout__name'>{{workout.name}}<div class='workout__description'>
+                        {{workout.content.description}}</div>
                 </div>
-                
-                
+
+                <div class='workout__values'>
+                    <div class='workout__value' *ngFor='let field of fields'
+                        [ngClass]='{"hidden": !!!workout.content[field.key]}' (click)='edit()'>
+                        {{workout.content[field.key]}} {{field.unit}}</div>
+                </div>
+
+
             </div>
         </div>
-    
+
         <div class='workout__controls'>
-            <div class='workout__complete' (click)='dataService.changeGroup(data, "prev")' *ngIf='data.block == "strength"'>&lt;&lt;</div>
-            <div class='workout__complete' (click)='dataService.changeRoutine(data, "prev")'>&lt;</div>
-            <div class='workout__complete' (click)='complete(data)'>Complete</div>
-            <div class='workout__complete' (click)='dataService.changeRoutine(data, "next")'>&gt;</div>
-            <div class='workout__complete' (click)='dataService.changeGroup(data, "next")'  *ngIf='data.block == "strength"'>&gt;&gt;</div>
+            <div (click)='dataService.changeGroup(data, "prev")' *ngIf='data.block == "strength"'>
+                <img src='./assets/icons/chevron-left-solid.svg' class='chevron'/>
+                <img src='./assets/icons/chevron-left-solid.svg' class='chevron'/>
+            </div>
+            <div (click)='dataService.changeRoutine(data, "prev")'>
+                <img src='./assets/icons/chevron-left-solid.svg' class='chevron'/>
+            </div>
+            <div (click)='complete(data)'>Complete</div>
+            <div (click)='dataService.changeRoutine(data, "next")'>
+                <img src='./assets/icons/chevron-right-solid.svg' class='chevron'/>
+            </div>
+            <div (click)='dataService.changeGroup(data, "next")'
+                *ngIf='data.block == "strength"'>
+                <img src='./assets/icons/chevron-right-solid.svg' class='chevron'/>
+                <img src='./assets/icons/chevron-right-solid.svg' class='chevron'/>
+            </div>
         </div>
     </div>
     <div *ngIf='getCurrentGroup(data).complete'>Complete</div>
-    
+
 </div>

@@ -22,8 +22,12 @@
 
 .block {
     border-bottom: 2px solid rgba(grey, 0.5);
-    padding: 15px 0px;
+    padding: 40px 0px;
     position: relative;
+
+    &:nth-child(2) {
+        padding-top: 15px;
+    }
 
     &:last-child {
         border-bottom: 0px;
@@ -114,4 +118,8 @@
 .workout__controls {
     display: flex;
     justify-content: space-between;
+}
+
+.chevron {
+    width: 10px;
 }
