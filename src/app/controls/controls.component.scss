@@ -1,0 +1,36 @@
+@import '../../variables.scss';
+
+
+.workout__controls {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    // justify-content: space-between;
+}
+
+.controls__button {
+    align-items: center;
+    background-color: $color-blue-light;
+    border-radius: 200%;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    margin: 0px 15px;
+    width: 40px;
+}
+
+.chevron {
+    filter: invert(100%) sepia(1%) saturate(7488%) hue-rotate(188deg) brightness(115%) contrast(100%);
+    width: 20px;
+    width: 10px;
+}
+
+.complete {
+    background-color: $color-teal;
+    
+}
+
+.check {
+    filter: invert(100%) sepia(1%) saturate(7488%) hue-rotate(188deg) brightness(115%) contrast(100%);
+    width: 20px;
+}

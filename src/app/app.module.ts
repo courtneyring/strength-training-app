@@ -3,16 +3,25 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
+import { ControlsComponent } from './controls/controls.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DropdownComponent } from './components/dropdown/dropdown.component';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        ControlsComponent,
+        DropdownComponent
     ],
     imports: [
         BrowserModule,
-        AppRoutingModule
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        MatMenuModule,
+        MatIconModule
     ],
     providers: [],
     bootstrap: [AppComponent]

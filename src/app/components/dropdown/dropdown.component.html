@@ -1,0 +1,14 @@
+<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" class='mat-menu-anchor'>
+    <mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+    <button mat-menu-item (click)='onButtonClick("prev")'>
+        <mat-icon>chevron_left</mat-icon>
+        <span>Previous Group</span>
+    </button>
+    <button mat-menu-item (click)='onButtonClick("next")'>
+        <mat-icon>chevron_right</mat-icon>
+        <span>Next Group</span>
+    </button>
+
+</mat-menu>

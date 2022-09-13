@@ -1,0 +1,8 @@
+.mat-menu-anchor {
+    background-color: transparent;
+    border: none;
+
+    & > .mat-icon {
+        color: white;
+    }
+}

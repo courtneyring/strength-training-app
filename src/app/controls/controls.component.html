@@ -1,0 +1,30 @@
+<div class='workout__controls'>
+
+    <!-- Group Previous
+    <div (click)='dataService.changeGroup(data, "prev")' *ngIf='data.block == "strength"'>
+        <img src='../assets/icons/chevron-left-solid.svg' class='chevron icon'/>
+        <img src='../assets/icons/chevron-left-solid.svg' class='chevron icon'/>
+    </div> -->
+
+    <!-- Routine Previous -->
+    <div (click)='dataService.changeRoutine(data, "prev")' class='controls__button'>
+        <img src='../../assets/icons/chevron-left-solid.svg' class='chevron icon'/>
+    </div>
+
+    <!-- Complete -->
+    <div (click)='complete(data)' class='controls__button complete'>
+        <img src='../../assets/icons/check-solid.svg' class='check'/>
+    </div>
+
+    <!-- Routine Next -->
+    <div (click)='dataService.changeRoutine(data, "next")' class='controls__button'>
+        <img src='../../assets/icons/chevron-right-solid.svg' class='chevron icon'/>
+    </div>
+
+    <!-- Group Next
+    <div (click)='dataService.changeGroup(data, "next")'
+        *ngIf='data.block == "strength"'>
+        <img src='../../assets/icons/chevron-right-solid.svg' class='chevron icon'/>
+        <img src='../../assets/icons/chevron-right-solid.svg' class='chevron icon'/>
+    </div> -->
+</div>

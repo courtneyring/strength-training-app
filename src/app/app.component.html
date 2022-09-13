@@ -1,12 +1,21 @@
 <div class='header'>
-    <div class='header1'>Workout</div>
-    <div class='header2'>{{today}}</div>
+    <div class='header__eyebrow'>{{today}}</div>
+    <div class='header__title'>Workout</div>
+    
 </div>
 
 
 <div class='block' *ngFor='let data of dataService.data'>
     <div *ngIf='!getCurrentGroup(data).complete'>
-        <div class='title'>{{data.groups[data.groupIdx].name}}</div>
+
+        <div class='block__header'>
+            <div class='title'>{{data.groups[data.groupIdx].name}}</div>
+             <app-dropdown (selectEmitter)='dataService.changeGroup(data, $event)'></app-dropdown>
+        </div>
+        
+
+
+
         <div class='set' *ngFor='let set of getCurrentRoutine(data).content.supersets'>
             <div class='workout' *ngFor='let workout of set.workouts' (click)='goToStory(workout.id)'>
                 <div class='workout__name'>{{workout.name}}<div class='workout__description'>
@@ -23,25 +32,13 @@
             </div>
         </div>
 
-        <div class='workout__controls'>
-            <div (click)='dataService.changeGroup(data, "prev")' *ngIf='data.block == "strength"'>
-                <img src='./assets/icons/chevron-left-solid.svg' class='chevron'/>
-                <img src='./assets/icons/chevron-left-solid.svg' class='chevron'/>
-            </div>
-            <div (click)='dataService.changeRoutine(data, "prev")'>
-                <img src='./assets/icons/chevron-left-solid.svg' class='chevron'/>
-            </div>
-            <div (click)='complete(data)'>Complete</div>
-            <div (click)='dataService.changeRoutine(data, "next")'>
-                <img src='./assets/icons/chevron-right-solid.svg' class='chevron'/>
-            </div>
-            <div (click)='dataService.changeGroup(data, "next")'
-                *ngIf='data.block == "strength"'>
-                <img src='./assets/icons/chevron-right-solid.svg' class='chevron'/>
-                <img src='./assets/icons/chevron-right-solid.svg' class='chevron'/>
-            </div>
-        </div>
+    <app-controls [data]='data' [group]='getCurrentGroup(data)' [routine]='getCurrentRoutine(data)'></app-controls>
     </div>
-    <div *ngIf='getCurrentGroup(data).complete'>Complete</div>
+
+    <div class='block__complete'>
+
+        <mat-icon  *ngIf='getCurrentGroup(data).complete'>check_circle</mat-icon>
+    </div>
+    
 
 </div>

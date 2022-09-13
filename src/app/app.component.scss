@@ -1,4 +1,7 @@
+@import '../variables';
+
 :host {
+    
     display: block;
     padding: 15px;
     width: 100vw;
@@ -10,17 +13,22 @@
     text-align: center;
 }
 
-.header1{
-    font-size: 32px;
+.header__eyebrow{
+    color: $color-blue-light;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
 }
 
-.header2 {
-    font-size: 24px;
+.header__title {
+    font-size: 26px;
 }
 
 
 
 .block {
+    
     border-bottom: 2px solid rgba(grey, 0.5);
     padding: 40px 0px;
     position: relative;
@@ -34,22 +42,39 @@
     }
 }
 
+.block__header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.block__complete {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+
+}
+
 .title {
     font-size: 24px;
     margin-bottom: 20px;
     text-transform: capitalize;
-    text-decoration: underline;
 }
 
 .set {
+    background-color: $color-blue-medium;
+    border-radius: 20px;
     margin-bottom: 50px;
+    padding: 17px;
 }
 
 .labels {
     background-color: rgba(white, 0.8);
     display: flex;
     justify-content: space-between;
-    font-size: 14px;
+    font-size: 12px;
     padding: 15px 0px;
     position: sticky;
     top: 0px;
@@ -75,10 +100,11 @@
 }
 
 .workout__description {
-    font-size: 16px;
+    color: $color-blue-light;
+    font-size: 12px;
     font-weight: 300;
-    font-style: italic;
-    margin-bottom: 7px;
+    line-height: 15px;
+    margin: 7px 0px;
 }
 
 .workout__values {
@@ -115,11 +141,3 @@
     display: none;
 }
 
-.workout__controls {
-    display: flex;
-    justify-content: space-between;
-}
-
-.chevron {
-    width: 10px;
-}

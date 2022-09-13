@@ -33,12 +33,7 @@ export class AppComponent {
  
     }
 
-    async complete(data) {
-        let group = this.getCurrentGroup(data);
-        await this.dataService.completeStory(group);
-        await this.dataService.completeStory(this.getCurrentRoutine(data));
-        group['complete'] = true;
-    }
+   
 
     goToStory(id){
         window.open(`https://app.storyblok.com/#!/me/spaces/${this.dataService.spaceId}/stories/0/0/${id}`, '_blank');
