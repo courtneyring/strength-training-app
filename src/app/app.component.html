@@ -10,7 +10,7 @@
 
         <div class='block__header'>
             <div class='title'>{{data.groups[data.groupIdx].name}}</div>
-             <app-dropdown (selectEmitter)='dataService.changeGroup(data, $event)'></app-dropdown>
+             <app-dropdown (selectEmitter)='dataService.changeGroup(data, $event)' (removeEmitter)='dataService.remove(data)'></app-dropdown>
         </div>
         
 

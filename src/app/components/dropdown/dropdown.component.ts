@@ -10,6 +10,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class DropdownComponent implements OnInit {
 
+    @Output() removeEmitter = new EventEmitter();
     @Output() selectEmitter = new EventEmitter();
 
     constructor(private dataService: DataService) { }
@@ -23,6 +24,10 @@ export class DropdownComponent implements OnInit {
         console.log(e);
         this.selectEmitter.emit(e)
 
+    }
+
+    onRemove() {
+        this.removeEmitter.emit();
     }
 
 }

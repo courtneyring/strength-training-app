@@ -154,4 +154,33 @@ export class DataService {
     }
 
 
+    async remove(data) {
+        await this.changeRoutine(data, 'next');
+        
+        let routines = data.groups[0].content.routines;
+        routines.shift();
+        console.log(routines)
+        data.routineIdx = 0;
+
+        let raw = (await this.getStories([data.groups[0].uuid]))[0];
+        console.log(raw);
+        raw.content.routines.shift();
+        console.log(raw.content.routines);
+
+        let body = {
+            story: {
+                name: raw.name,
+                slug: raw.full_slug,
+                content: {...raw.content, routines: raw.content.routines},    
+            },
+            publish: 1
+        }
+
+        let resp = await fetch(`https://mapi.storyblok.com/v1/spaces/${this.spaceId}/stories/${raw.id}`, {
+            method: 'PUT', 
+            headers: {Authorization: this.token, 'Content-Type': 'application/json'},
+            body: JSON.stringify(body)
+        })
+    }
+
 }

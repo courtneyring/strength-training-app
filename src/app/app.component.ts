@@ -45,7 +45,6 @@ export class AppComponent {
 
     getCurrentRoutine(data) {
         let group = this.getCurrentGroup(data);
-
         return group.content.routines[data.routineIdx]
     }
 
